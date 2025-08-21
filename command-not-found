@@ -29,8 +29,8 @@ if pkgID is None:
             pkgName = cursor.execute(
                 "SELECT name FROM packages WHERE pkgID = ?", (pkgID,)
             ).fetchone()[0]
-            print(f"        Lệnh: {command_name} trong gói {pkgName}")
-        print("Cài đặt gói bằng lệnh: sudo apt install <tên_gói>")
+            print(f"    Lệnh: {command_name} trong gói {pkgName}")
+        print("Cài đặt gói bằng lệnh: sudo nala install <tên_gói>")
     else:
         print("Đéo thấy gói nào chứa lệnh này.")
 else:
@@ -41,7 +41,7 @@ else:
         print(f"Lệnh {query_cmd} có trong gói {pkgName[0]} đấy.")
         ans = input("Mày có muốn cài đặt gói này không? (C/K) ")
         if ans.lower() == "c":
-            subprocess.run(["sudo", "apt", "install", pkgName[0]], shell=True)
+            subprocess.run(f"sudo nala install {pkgName[0]}", shell=True)
         else:
             print("Ok, không cài đặt nữa.")
     else:
