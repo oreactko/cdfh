@@ -1,0 +1,48 @@
+#!/usr/bin/python3
+
+import sqlite3
+from rapidfuzz import process, fuzz
+import argparse
+import subprocess
+
+parser = argparse.ArgumentParser()
+parser.add_argument("cmd", nargs="+")
+args = parser.parse_args()
+query_cmd = args.cmd[0]
+conn = sqlite3.connect("/var/lib/command-not-found/commands.db")
+cursor = conn.cursor()
+
+cursor.execute("SELECT pkgID FROM commands WHERE command = ?", (query_cmd,))
+pkgID = cursor.fetchone()
+
+if pkgID is None:
+    cursor.execute("SELECT command, pkgID FROM commands")
+    rows = cursor.fetchall()
+    commands = [row[0] for row in rows]
+    matches = process.extract(query_cmd, commands, scorer=fuzz.ratio, limit=10)
+    matches_filtered = [m for m in matches if m[1] >= 80]
+    if matches_filtered:
+        print("Đéo thấy lệnh này, nhưng có thể mày đang tìm:")
+        for match in matches_filtered:
+            command_name, _, index = match
+            pkgID = rows[index][1]
+            pkgName = cursor.execute(
+                "SELECT name FROM packages WHERE pkgID = ?", (pkgID,)
+            ).fetchone()[0]
+            print(f"        Lệnh: {command_name} trong gói {pkgName}")
+        print("Cài đặt gói bằng lệnh: sudo apt install <tên_gói>")
+    else:
+        print("Đéo thấy gói nào chứa lệnh này.")
+else:
+    pkgName = cursor.execute(
+        "SELECT name FROM packages WHERE pkgID = ?", (pkgID[0],)
+    ).fetchone()
+    if pkgName:
+        print(f"Lệnh {query_cmd} có trong gói {pkgName[0]} đấy.")
+        ans = input("Mày có muốn cài đặt gói này không? (C/K) ")
+        if ans.lower() == "c":
+            subprocess.run(["sudo", "apt", "install", pkgName[0]], shell=True)
+        else:
+            print("Ok, không cài đặt nữa.")
+    else:
+        print("Đéo thấy gói nào chứa lệnh này.")
