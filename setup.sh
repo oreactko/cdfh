@@ -43,8 +43,9 @@ if [[ -n "$PROFILE_FILE" ]]; then
     echo 'command-not-found-handler() { ~/.local/bin/command-not-found -- "$1"; }' >>"$PROFILE_FILE"
     ;;
   fish)
-    echo 'function command-not-found-handler; ~/.local/bin/command-not-found -- $argv[1]; end' >>"$PROFILE_FILE"
+    echo 'function commhand-not-found-handler; ~/.local/bin/command-not-found -- $argv[1]; end' >>"$PROFILE_FILE"
     ;;
   esac
-  source "$PROFILE_FILE"
+  echo "Đã thiết lập command-not-found cho shell $CURRENT_SHELL."
+  echo "Vui lòng khởi động lại shell hoặc chạy 'source $PROFILE_FILE' để áp dụng thay đổi."
 fi
