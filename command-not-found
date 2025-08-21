@@ -41,7 +41,7 @@ else:
         print(f"Lệnh {query_cmd} có trong gói {pkgName[0]} đấy.")
         ans = input("Mày có muốn cài đặt gói này không? (C/K) ")
         if ans.lower() == "c":
-            subprocess.run(f"sudo nala install {pkgName[0]}", shell=True)
+            subprocess.run(f"sudo nala install {pkgName[0]} -y", shell=True)
         else:
             print("Ok, không cài đặt nữa.")
     else:
