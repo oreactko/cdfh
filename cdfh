@@ -16,6 +16,7 @@ for folder in folders:
     file_path = Path(f"{folder}{query_cmd}")
     if file_path.is_file():
         print("Hey yo bro,mày quên sudo à.Lệnh này chỉ có trong sudo và user root thôi")
+        exit(0)
 conn = sqlite3.connect("/var/lib/command-not-found/commands.db")
 cursor = conn.cursor()
 
