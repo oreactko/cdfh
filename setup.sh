@@ -34,6 +34,7 @@ if [[ ! -f "$HOME/.local/bin/command-not-found" ]]; then
 
   # Cấp quyền thực thi
   chmod +x "$HOME/.local/bin/command-not-found"
+  sudo update-command-not-found
 fi
 
 # Thiết lập handler cho shell tương ứng
