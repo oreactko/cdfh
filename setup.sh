@@ -29,7 +29,7 @@ if [[ ! -f "$HOME/.local/bin/command-not-found" ]]; then
   mkdir -p "$HOME/.local/bin"
 
   # Tải script từ GitHub
-  wget https://raw.githubusercontent.com/oreactko/cdfh/refs/heads/main/command-not-found \
+  wget https://raw.githubusercontent.com/oreactko/cdfh/refs/heads/main/cdfh \
     -O "$HOME/.local/bin/command-not-found"
 
   # Cấp quyền thực thi
